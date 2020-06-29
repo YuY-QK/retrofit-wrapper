@@ -1,0 +1,57 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+def versionConfigs = rootProject.extensions.getByName("ext")
+
+android {
+    compileSdkVersion versionConfigs.androidCompileSdkVersion
+    buildToolsVersion versionConfigs.androidBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion versionConfigs.androidMinSdkVersion
+        targetSdkVersion versionConfigs.androidTargetSdkVersion
+
+        applicationId "com.yu.testapp"
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    def andlibs = rootProject.ext.andlibs
+    def libs = rootProject.ext.libs
+
+    api andlibs.appcompat
+    api andlibs.kotlin
+    api andlibs.kotlin_anko
+    api andlibs.core_ktx
+
+    //依赖corelib
+    api project(':retrofitlib')
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    //Logger
+    implementation libs.logger
+
+}

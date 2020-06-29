@@ -1,0 +1,46 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+def versionConfigs = rootProject.extensions.getByName("ext")
+
+android {
+    compileSdkVersion versionConfigs.androidCompileSdkVersion
+    buildToolsVersion versionConfigs.androidBuildToolsVersion
+
+    defaultConfig {
+        minSdkVersion versionConfigs.androidMinSdkVersion
+        targetSdkVersion versionConfigs.androidTargetSdkVersion
+
+        versionCode 1
+        versionName "1.0"
+
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    def andlibs = rootProject.ext.andlibs
+    def libs = rootProject.ext.libs
+
+    implementation andlibs.appcompat
+    implementation andlibs.kotlin
+    implementation andlibs.kotlin_anko
+    implementation andlibs.core_ktx
+
+    implementation libs.logger
+    implementation libs.gson
+    implementation libs.retrofit2
+    implementation libs.retrofit2_gson
+    implementation libs.okhttp
+    implementation libs.okhttp_logger
+    implementation libs.okhttp_mockwebserver
+
+}
